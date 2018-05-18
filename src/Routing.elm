@@ -10,7 +10,7 @@ matchers =
     oneOf
         [ map PlayersRoute top
         , map NewPlayerRoute (s "players" </> s "new")
-        , map PlayerRoute (s "players" </> string)
+        , map PlayerRoute (s "players" </> int)
         , map PlayersRoute (s "players")
         ]
 
@@ -32,7 +32,7 @@ playersPath =
 
 playerPath : PlayerId -> String
 playerPath id =
-    "#players/" ++ id
+    "#players/" ++ toString id
 
 
 newPlayerPath : String

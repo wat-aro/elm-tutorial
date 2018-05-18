@@ -26,7 +26,7 @@ initialModel route =
 
 
 type alias PlayerId =
-    String
+    Int
 
 
 type alias Player =

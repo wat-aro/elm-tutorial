@@ -59,7 +59,7 @@ maybeList response =
 playerRow : Player -> Html Msg
 playerRow player =
     tr []
-        [ td [] [ text player.id ]
+        [ td [] [ text <| toString player.id ]
         , td [] [ text player.name ]
         , td [] [ text (toString player.level) ]
         , td []

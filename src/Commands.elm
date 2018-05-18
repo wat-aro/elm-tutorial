@@ -27,13 +27,13 @@ playersDecoder =
 playerDecoder : Decode.Decoder Player
 playerDecoder =
     decode Player
-        |> required "id" Decode.string
+        |> required "id" Decode.int
         |> required "name" Decode.string
         |> required "level"Decode.int
 
 savePlayerUrl : PlayerId -> String
 savePlayerUrl playerId =
-    "http://localhost:4000/players/" ++ playerId
+    "http://localhost:4000/players/" ++ toString playerId
 
 savePlayerRequest : Player -> Http.Request Player
 savePlayerRequest player =
@@ -56,7 +56,7 @@ playerEncoder : Player -> Encode.Value
 playerEncoder player =
     let
         attributes =
-            [ ( "id", Encode.string player.id )
+            [ ( "id", Encode.int player.id )
             , ( "name", Encode.string player.name)
             , ( "level", Encode.int player.level )
             ]
