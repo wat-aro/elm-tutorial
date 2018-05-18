@@ -1,11 +1,11 @@
 module Update exposing (..)
 
-import Commands exposing (savePlayerCmd)
-import Models exposing (Model, Player, PlayerForm)
+import Commands exposing (savePlayerCmd, createPlayerCmd)
+import Models exposing (Model, Player, PlayerForm, newPlayerForm)
 import Msgs exposing (Msg(..))
 import RemoteData
-import Routing exposing (parseLocation)
-
+import Routing exposing (parseLocation, playersPath)
+import List
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -39,6 +39,14 @@ update msg model =
         Msgs.OnPlayerSave (Err error) ->
             ( model, Cmd.none )
 
+        Msgs.PostPlayerForm ->
+            ( model, createPlayerCmd model.playerForm)
+
+        Msgs.OnPlayerCreate (Ok player) ->
+            ( {model | playerForm = newPlayerForm}, Cmd.none )
+
+        Msgs.OnPlayerCreate (Err error) ->
+            (model, Cmd.none )
 
 updatePlayer : Model -> Player -> Model
 updatePlayer model updatedPlayer =

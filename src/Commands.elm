@@ -5,7 +5,7 @@ import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required)
 import Json.Encode as Encode
 import Msgs exposing (Msg)
-import Models exposing (PlayerId, Player)
+import Models exposing (PlayerId, Player, PlayerForm)
 import RemoteData
 
 
@@ -31,9 +31,14 @@ playerDecoder =
         |> required "name" Decode.string
         |> required "level"Decode.int
 
+playersUrl : String
+playersUrl =
+    "http://localhost:4000/players/"
+
 savePlayerUrl : PlayerId -> String
 savePlayerUrl playerId =
-    "http://localhost:4000/players/" ++ toString playerId
+    playersUrl ++ toString playerId
+
 
 savePlayerRequest : Player -> Http.Request Player
 savePlayerRequest player =
@@ -47,10 +52,27 @@ savePlayerRequest player =
         , withCredentials = False
         }
 
+createPlayerRequest : PlayerForm -> Http.Request Player
+createPlayerRequest playerForm =
+    Http.request
+        { body = playerFormEncoder playerForm |> Http.jsonBody
+        , expect = Http.expectJson playerDecoder
+        , headers = []
+        , method = "POST"
+        , timeout = Nothing
+        , url = playersUrl
+        , withCredentials = False
+        }
+
 savePlayerCmd : Player -> Cmd Msg
 savePlayerCmd player =
     savePlayerRequest player
         |> Http.send Msgs.OnPlayerSave
+
+createPlayerCmd : PlayerForm -> Cmd Msg
+createPlayerCmd playerForm =
+    createPlayerRequest playerForm
+        |> Http.send Msgs.OnPlayerCreate
 
 playerEncoder : Player -> Encode.Value
 playerEncoder player =
@@ -62,3 +84,13 @@ playerEncoder player =
             ]
     in
       Encode.object attributes
+
+playerFormEncoder : PlayerForm -> Encode.Value
+playerFormEncoder playerForm =
+    let
+        attributes =
+            [ ( "name", Encode.string playerForm.name)
+            , ( "level", Encode.int playerForm.level )
+            ]
+    in
+        Encode.object attributes

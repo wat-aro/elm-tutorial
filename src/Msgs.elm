@@ -11,5 +11,7 @@ type Msg
     | OnLocationChange Location
     | ChangeLevel Player Int
     | OnPlayerSave (Result Http.Error Player)
+    | PostPlayerForm
+    | OnPlayerCreate (Result Http.Error Player)
     | ChangePlayerFormName String
     | ChangePlayerFormLevel PlayerForm Int
