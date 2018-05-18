@@ -10,6 +10,7 @@ type Msg
     = OnFetchPlayers (WebData (List Player))
     | OnLocationChange Location
     | ChangeLevel Player Int
+    | ChangeName Player String
     | OnPlayerSave (Result Http.Error Player)
     | PostPlayerForm
     | OnPlayerCreate (Result Http.Error Player)
