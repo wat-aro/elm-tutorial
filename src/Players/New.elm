@@ -74,7 +74,8 @@ listBtn =
         ]
         [ i [ class "fa fa-chevron-left mr1" ] [], text "List" ]
 
+
 createBtn : PlayerForm -> Html Msg
 createBtn playerForm =
     a [ class "btn ml1 h3", onClick Msgs.PostPlayerForm ]
-        [ i [class "fa fa-arrow-circle-right"] [text "Submit"]]
+        [ i [ class "fa fa-arrow-circle-right" ] [ text "Submit" ] ]

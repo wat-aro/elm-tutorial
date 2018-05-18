@@ -4,8 +4,8 @@ import Http
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required)
 import Json.Encode as Encode
+import Models exposing (Player, PlayerForm, PlayerId)
 import Msgs exposing (Msg)
-import Models exposing (PlayerId, Player, PlayerForm)
 import RemoteData
 
 
@@ -20,20 +20,24 @@ fetchPlayersUrl : String
 fetchPlayersUrl =
     "http://localhost:4000/players"
 
+
 playersDecoder : Decode.Decoder (List Player)
 playersDecoder =
     Decode.list playerDecoder
+
 
 playerDecoder : Decode.Decoder Player
 playerDecoder =
     decode Player
         |> required "id" Decode.int
         |> required "name" Decode.string
-        |> required "level"Decode.int
+        |> required "level" Decode.int
+
 
 playersUrl : String
 playersUrl =
     "http://localhost:4000/players/"
+
 
 savePlayerUrl : PlayerId -> String
 savePlayerUrl playerId =
@@ -52,6 +56,7 @@ savePlayerRequest player =
         , withCredentials = False
         }
 
+
 createPlayerRequest : PlayerForm -> Http.Request Player
 createPlayerRequest playerForm =
     Http.request
@@ -64,33 +69,37 @@ createPlayerRequest playerForm =
         , withCredentials = False
         }
 
+
 savePlayerCmd : Player -> Cmd Msg
 savePlayerCmd player =
     savePlayerRequest player
         |> Http.send Msgs.OnPlayerSave
+
 
 createPlayerCmd : PlayerForm -> Cmd Msg
 createPlayerCmd playerForm =
     createPlayerRequest playerForm
         |> Http.send Msgs.OnPlayerCreate
 
+
 playerEncoder : Player -> Encode.Value
 playerEncoder player =
     let
         attributes =
             [ ( "id", Encode.int player.id )
-            , ( "name", Encode.string player.name)
+            , ( "name", Encode.string player.name )
             , ( "level", Encode.int player.level )
             ]
     in
-      Encode.object attributes
+    Encode.object attributes
+
 
 playerFormEncoder : PlayerForm -> Encode.Value
 playerFormEncoder playerForm =
     let
         attributes =
-            [ ( "name", Encode.string playerForm.name)
+            [ ( "name", Encode.string playerForm.name )
             , ( "level", Encode.int playerForm.level )
             ]
     in
-        Encode.object attributes
+    Encode.object attributes

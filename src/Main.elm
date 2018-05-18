@@ -15,7 +15,7 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, fetchPlayers )
+    ( initialModel currentRoute, fetchPlayers )
 
 
 subscriptions : Model -> Sub Msg
@@ -23,7 +23,9 @@ subscriptions model =
     Sub.none
 
 
+
 -- MAIN
+
 
 main : Program Never Model Msg
 main =

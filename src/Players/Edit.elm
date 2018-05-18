@@ -1,7 +1,7 @@
 module Players.Edit exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, value, type_, value)
+import Html.Attributes exposing (class, href, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Models exposing (Player)
 import Msgs exposing (Msg)
@@ -32,8 +32,8 @@ form player =
 
 formName : Player -> Html Msg
 formName player =
-     input [ class "h1", type_ "text", value player.name, onInput <| Msgs.ChangeName player ]
-         []
+    input [ class "h1", type_ "text", value player.name, onInput <| Msgs.ChangeName player ]
+        []
 
 
 formLevel : Player -> Html Msg
